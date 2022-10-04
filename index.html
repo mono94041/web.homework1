@@ -1,105 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>专心敲代码</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" href="static/fonts/iconfont.css">
-<link rel="stylesheet" type="text/css" media="screen" href="static/css/reset.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="static/css/player.css" />
-<link rel="stylesheet" type="text/css" media="(min-width: 500px)" href="static/css/player_desktop.css" />
-<link rel="stylesheet" type="text/css" media="(max-width: 500px)" href="static/css/player_mobile.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+    #mycanvas{
+    display: block;
+    margin:10px auto}
+    </style>
 </head>
 <body>
+    <canvas id="mycanvas" width="400" height="400"></canvas>
 
-<!-- 播放器 -->
-<div class="music-player">
-    <!-- audio标签 -->
-    <audio class="music-player__audio" ></audio>
-    <!-- 播放器主体 -->
-    <div class="music-player__main">
-        <!-- 模糊背景 -->
-        <div class="music-player__blur"></div>
-        <!-- 唱片 -->
-        <div class="music-player__disc">
-            <!-- 唱片图片 -->
-            <div class="music-player__image">
-                <img width="100%" src="" alt="">
-            </div>
-            <!-- 指针 -->
-            <div class="music-player__pointer"><img width="100%" src="static/images/cd_tou.png" alt=""></div>
-        </div>
-        <!-- 控件主体 -->
-        <div class="music-player__controls">
-            <!-- 歌曲信息 -->
-            <div class="music__info">
-                <h3 class="music__info--title">...</h3>
-                <p class="music__info--singer">...</p>
-            </div>
-            <!-- 控件... -->
-            <div class="player-control">
-                <div class="player-control__content">
-                    <div class="player-control__btns">
-                        <div class="player-control__btn player-control__btn--prev"><i class="iconfont icon-prev"></i></div>
-                        <div class="player-control__btn player-control__btn--play"><i class="iconfont icon-play"></i></div>
-                        <div class="player-control__btn player-control__btn--next"><i class="iconfont icon-next"></i></div>
-                        <div class="player-control__btn player-control__btn--mode"><i class="iconfont icon-loop"></i></div>
-                    </div>
-                    <div class="player-control__volume">
-                        <div class="control__volume--icon player-control__btn"><i class="iconfont icon-volume"></i></div>
-                        <div class="control__volume--progress progress"></div>
-                    </div>
-                </div>
+    <script type="text/javascript">
+    var mycanvas=document.getElementById('mycanvas');
+    var c=mycanvas.getContext('2d');
+    function clock()
+    {
+		c.clearRect(0,0,400,400);
+       //		获取当前时间
+		var data = new Date();
+		var sec =data.getSeconds();//获取秒
+		var min =data.getMinutes();//获取小时
+		var hour=data.getHours();//获取分钟
 
-                <!-- 歌曲播放进度 -->
-                <div class="player-control__content">
-                    <div class="player__song--progress progress"></div>
-                    <div class="player__song--timeProgess nowTime">00:00</div>
-                    <div class="player__song--timeProgess totalTime">00:00</div>
-                </div>
 
-            </div>
+        c.save();//保存当前状态
+		c.translate(200,200);//转换画布坐标系统
+		c.rotate(Math.PI/2);//确定旋转点的
 
-        </div>
-    </div>
-    <!--搜索框-->
-    <div class="search bar7">
-        <div>
-            <input type="text" class="find_song">
-            <button></button>
-        </div>
-        <div class="search_list">
-            <ul class="search_list_content">
-                <!--<li class="search_list_item">123</li>-->
-                <!--<li class="search_list_item">123</li>-->
-            </ul>
-        </div>
+        //分钟刻度线
+        for(var i=0;i<60;i++)//画12个刻度线
+        {
+            c.beginPath();         //起始一条路径，或重置当前路径
+            c.strokeStyle="#f00";  //设置或返回用于笔触的颜色、渐变或模式
+            c.linewidth=5;
+            c.moveTo(117,0);      //把路径移动到画布中的指定点，不创建线条
+            c.lineTo(120,0);      //添加一个新点，然后在画布中创建从该点到最后指定点的线条
+            c.stroke();           //绘制已定义的路径
+            c.rotate(Math.PI/30);//每个6deg画一个时钟刻度线  / 旋转当前绘图
+            c.closePath();       //创建从当前点回到起始点的路径
+        }
 
-    </div>
-    <!-- 歌曲列表 -->
-    <div class="music-player__list">
-        <ul class="music__list_content">
-            <!-- <li class="music__list__item play">123</li>
-            <li class="music__list__item">123</li>
-            <li class="music__list__item">123</li> -->
-        </ul>
-    </div>
-    <div class="foot_marker">
-        <a href="mailto:747761541@qq.com" target="_blank" title="我的邮箱"> 联系我 </a>
-        <a href="https://github.com/747761541/django_songs" target="_blank" title="这个项目在GitHub上的地址"> GitHub </a>
-    </div>
-</div>
+       //时钟刻度线
+		for(var i=0;i<12;i++){	//画12个刻度线			
+			c.beginPath();
+			c.strokeStyle = "#000";				
+			c.lineWidth = 8 ;
+			c.moveTo(100,0);
+			c.lineTo(120,0);
+			c.stroke();
+			c.rotate(Math.PI/6); //每个30deg画一个时钟刻度线
+			c.closePath();
+		}
 
-<!-- <div>
-<input id="save" value="导出歌单" type="button" />
-<input id="upfile" value="导入歌单" type="file"/>
-</div> -->
 
-<script src="static/js/utill.js"></script>
-<script src="static/js/jquery.min.js"></script>
-<script src="https://musicsharing.github.io/music/music_list.js"></script>
-<script src="static/js/player.js"></script>
-<script src="static/js/get_music_list.js"></script>
+       //外表盘
+		c.beginPath();
+		c.strokeStyle = "pink";
+		c.arc(0,0,145,0,Math.PI*2);
+		c.lineWidth = 12 ;
+		c.stroke();
+		c.closePath();
+
+
+        //画时针
+		hour = hour>12?hour-12:hour;
+		c.beginPath();
+		c.save();
+		c.rotate(Math.PI/6*hour+Math.PI/6*min/60+Math.PI/6*sec/3600);
+		c.strokeStyle = "yellowgreen";
+		c.lineWidth = 4 ;
+		c.moveTo(-20,0);
+		c.lineTo(50,0);
+		c.stroke();
+		c.restore();
+		c.closePath();
+
+
+        //画分针
+		c.beginPath();
+		c.save();
+		c.rotate(Math.PI/30*min+Math.PI/30*sec/60);
+		c.strokeStyle = "springgreen";
+		c.lineWidth = 3 ;
+		c.moveTo(-30,0);
+		c.lineTo(70,0);
+		c.stroke();
+		c.restore();
+		c.closePath();
+
+
+        //画秒针
+		c.beginPath();
+		c.save();
+		c.rotate(Math.PI/30*sec);
+		c.strokeStyle = "red";
+		c.lineWidth = 2 ;
+		c.moveTo(-40,0);
+		c.lineTo(120,0);
+		c.stroke();
+		c.restore();
+		c.closePath();
+		
+		c.restore();
+
+    }
+    clock();
+    setInterval(clock,1000);//定时器，每隔一秒重新绘制钟表
+    </script>
+</body>
 </html>
